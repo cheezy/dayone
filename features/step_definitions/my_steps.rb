@@ -2,73 +2,29 @@ Given(/^I am on the puppy adoption site$/) do
   visit HomePage
 end
 
-When(/^I click the view details button for (.+)$/) do |name|
-  on(HomePage).select_puppy name
-end
-
-And(/^I click the adopt me button$/) do
-  on(DetailsPage).add_to_cart
-end
-
-And(/^I click the complete the adoption button$/) do
-  on(ShoppingCartPage).proceed_to_checkout
-end
-
-And(/^I click the adopt another puppy button$/) do
-  on(ShoppingCartPage).continue_shopping
-end
-
-And(/^I enter "([^"]*)" in the name field$/) do |name|
-  on(CheckoutPage).name = name
-end
-
-And(/^I enter "([^"]*)" in the address field$/) do |address|
-  on(CheckoutPage).address = address
-end
-
-And(/^I enter "([^"]*)" in the email field$/) do |email|
-  on(CheckoutPage).email = email
-end
-
-And(/^I select "([^"]*)" from the pay type dropdown$/) do |pay_type|
-  on(CheckoutPage).pay_type = pay_type
-end
-
-And(/^I click the place order button$/) do
-  on(CheckoutPage).place_order
-end
-
 Then(/^I should see "([^"]*)"$/) do |expected_message|
   expect(@current_page.text).to include expected_message
 end
 
-Then(/^I should see "([^"]*)" for the name on (line item \d+)$/) do |name, item|
-  expect(on(ShoppingCartPage).name_for_line_item(item)).to include name
-end
-
-And(/^I should see "(.+)" for the subtotal on (line item \d+)$/) do |subtotal, item|
-  expect(on(ShoppingCartPage).subtotal_for_line_item(item)).to eql subtotal
-end
-
-And(/^I should see "(.+)" for the cart total$/) do |total|
-  expect(on(ShoppingCartPage).cart_total).to eql total
-end
-
-And(/^I checkout with:$/) do |table|
-  on(CheckoutPage).checkout(table.hashes.first)
-end
-
-And(/^I checkout$/) do
-  on(CheckoutPage).checkout
-end
-
-And(/^I checkout using a (.+)$/) do |payment_option|
-  on(CheckoutPage).checkout('pay_type' => payment_option)
-end
-
 When(/^I complete an adoption$/) do
-  on(HomePage).select_puppy
-  on(DetailsPage).add_to_cart
-  on(ShoppingCartPage).proceed_to_checkout
-  on(CheckoutPage).checkout
+  navigate_all
+end
+
+When(/^I attempt to checkout without a (.+)$/) do |field|
+  navigate_to(CheckoutPage).checkout(field => '')
+end
+
+Then(/^I should see the error message "([^"]*)"$/) do |the_message|
+  expect(on(CheckoutPage).errors).to include the_message
+end
+
+Given(/^I have an order for "([^"]*)"$/) do |name|
+  navigate_to(CheckoutPage).checkout('name' => name)
+end
+
+When(/^I process that order$/) do
+  visit LandingPage
+  on(LoginPage).login_to_system('admin', 'password')
+  on(LandingPage).adoptions
+  on(ProcessPuppyPage).process_puppy
 end

@@ -1,7 +1,7 @@
 class HomePage
   include PageObject
 
-  page_url 'http://puppies.herokuapp.com'
+  page_url FigNewton.base_url
 
   divs(:name, :class => 'name')
   buttons(:view_detail, :value => 'View Details')
@@ -12,3 +12,4 @@ class HomePage
   end
 
 end
+
