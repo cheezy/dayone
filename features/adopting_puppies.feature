@@ -53,3 +53,30 @@ Feature: Adopting puppies
     And I should see "$22.99" for the subtotal on line item 2
     And I should see "$57.94" for the cart total
 
+  Scenario: Using a table in my step
+    When I click the view details button for Brook
+    And I click the adopt me button
+    And I click the complete the adoption button
+    And I checkout with:
+      | name   | address         | email             | pay_type |
+      | Mickey | 555 Disney Lane | mickey@disney.com | Check    |
+    Then I should see "Thank you for adopting a puppy"
+
+  Scenario: Using default data
+    When I click the view details button for Brook
+    And I click the adopt me button
+    And I click the complete the adoption button
+    And I checkout
+    Then I should see "Thank you for adopting a puppy"
+
+  Scenario: Using partial default data
+    When I click the view details button for Brook
+    And I click the adopt me button
+    And I click the complete the adoption button
+    And I checkout using a Purchase order
+    Then I should see "Thank you for adopting a puppy"
+
+  Scenario: Thank you message should display after an adoption is completed
+    When I complete an adoption
+    Then I should see "Thank you for adopting a puppy"
+

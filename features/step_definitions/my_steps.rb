@@ -54,3 +54,21 @@ And(/^I should see "(.+)" for the cart total$/) do |total|
   expect(on(ShoppingCartPage).cart_total).to eql total
 end
 
+And(/^I checkout with:$/) do |table|
+  on(CheckoutPage).checkout(table.hashes.first)
+end
+
+And(/^I checkout$/) do
+  on(CheckoutPage).checkout
+end
+
+And(/^I checkout using a (.+)$/) do |payment_option|
+  on(CheckoutPage).checkout('pay_type' => payment_option)
+end
+
+When(/^I complete an adoption$/) do
+  on(HomePage).select_puppy
+  on(DetailsPage).add_to_cart
+  on(ShoppingCartPage).proceed_to_checkout
+  on(CheckoutPage).checkout
+end
