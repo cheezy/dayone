@@ -1,17 +1,20 @@
 Given(/^I am on the puppy adoption site$/) do
   @browser.goto 'http://puppies.herokuapp.com'
+  @home = HomePage.new(@browser)
 end
 
 When(/^I click the first view details button$/) do
-  @browser.button(:value => 'View Details').click
+  @home.select_puppy 1
+  @details = DetailsPage.new(@browser)
 end
 
 And(/^I click the second view details button$/) do
-  @browser.button(:value => 'View Details', :index => 1).click
+  @home.select_puppy 2
+  @details = DetailsPage.new(@browser)
 end
 
 And(/^I click the adopt me button$/) do
-  @browser.button(:value => 'Adopt Me!').click
+  @details.add_to_cart
   @shopping_cart = ShoppingCartPage.new(@browser)
 end
 
