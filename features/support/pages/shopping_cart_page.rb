@@ -21,7 +21,7 @@ class ShoppingCartPage
   private
 
   def data_for(item, column)
-    row = (item.to_i - 1) * ROWS_PER_PUPPY
+    row = (item - 1) * ROWS_PER_PUPPY
     the_cart_element[row][column].text
   end
 

@@ -4,7 +4,7 @@ Feature: Adopting puppies
     Given I am on the puppy adoption site
 
   Scenario Outline: Adopting a puppy
-    When I click the first view details button
+    When I click the view details button for Brook
     And I click the adopt me button
     And I click the complete the adoption button
     And I enter "<name>" in the name field
@@ -21,10 +21,10 @@ Feature: Adopting puppies
     | Wheezy | 999 Windy Blvd    | wheezy@example.com | Purchase order |
 
   Scenario: Adopting two puppies
-    When I click the first view details button
+    When I click the view details button for Brook
     And I click the adopt me button
     And I click the adopt another puppy button
-    And I click the second view details button
+    And I click the view details button for Hanna
     And I click the adopt me button
     And I click the complete the adoption button
     And I enter "Cheezy" in the name field
@@ -35,17 +35,17 @@ Feature: Adopting puppies
     Then I should see "Thank you for adopting a puppy"
 
   Scenario: Verify shopping cart with one puppy
-    When I click the first view details button
+    When I click the view details button for Brook
     And I click the adopt me button
     Then I should see "Brook" for the name on line item 1
     And I should see "$34.95" for the subtotal on line item 1
     And I should see "$34.95" for the cart total
 
   Scenario: Verify shopping cart with two puppies
-    When I click the first view details button
+    When I click the view details button for Brook
     And I click the adopt me button
     And I click the adopt another puppy button
-    And I click the second view details button
+    And I click the view details button for Hanna
     And I click the adopt me button
     Then I should see "Brook" for the name on line item 1
     And I should see "$34.95" for the subtotal on line item 1
